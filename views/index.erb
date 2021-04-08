@@ -5,7 +5,16 @@
 
 
     <body>
+        <h1>LoL Team Creator</h1>
 
+        <form method="post" action="index">
+            <% for i in 1..10 do %>
+                <label><%= "Summoner no. #{i}"%><label>
+                <input type="text" name="<%= "summoner_#{i-1}"%>" placeholder="<%= "Enter summoners name here"%>"/>
+                <br>
+            <%end%>
+
+        </form>
     </body>
 
 

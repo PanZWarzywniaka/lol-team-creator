@@ -7,5 +7,3 @@ require "sinatra/reloader" # Must be removed during demonstration and final proj
 
 require_all "controllers"
 require_all "views"
-
-#set :bind, "0.0.0.0" #for codio
