@@ -3,9 +3,9 @@ require "sinatra"
 require "require_all"
 require "sinatra/reloader" # Must be removed during demonstration and final project
 
-include ERB::Util
+#include ERB::Util
 
 require_all "controllers"
-require_all "models"
+require_all "views"
 
-set :bind, "0.0.0.0" #for codio
+#set :bind, "0.0.0.0" #for codio
