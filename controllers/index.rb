@@ -10,15 +10,18 @@ end
 
 post "/index" do
 
-    @nicks = ["Qertes","Muffinek137","Queen456","MagnatZOwocniaka"]
+    #@nicks = ["Qertes","Muffinek137","Queen456","MagnatZOwocniaka","nickzdupy"]
     @nicks = fetchSummoners(params)
     puts @nicks
-    @ratings = getAllMMRs(@nicks)
+    @ratings = getAllMMRs()
 
     #@teams [nick1,nick2,nick2,nick3] => team mmr
     @team1 = ["Qertes","Muffinek137","Queen456","MagnatZOwocniaka","balti24"]
     puts "team1 mmr #{sumTeamMMR(@team1)}"
     puts @ratings
+
+    @team = getOptimizedTeam()
+
     erb :index
 end
 
@@ -63,9 +66,9 @@ def getSummonersMMR(name)
     end
 end
 
-def getAllMMRs(nicks)
+def getAllMMRs()
     map = Hash.new
-    nicks.each do |name|
+    @nicks.each do |name|
         map[name] = getSummonersMMR(name)
     end
     return map
@@ -93,8 +96,71 @@ def averageTeamMMR(teamArray)
 
     sum = 0
     teamArray.each do |name|
-        sum+=@ratings[name]
+        sum+=@ratings[name] unless @ratings[name].nil?
+
     end
     
     return sum/teamArray.size()
+end
+
+def getOptimizedTeam()
+    iterativeApproach()
+    #pickBestApproach()
+end
+
+def iterativeApproach()
+
+    desired_rating = getDesiredRating()
+    allTeamCombinations = getAllTeamCombinations(desired_rating)
+    
+    allTeamCombinations.each do |team, rating_diff|
+        puts
+        puts team
+        puts "How close to the desired rating: #{rating_diff}"
+    end
+
+    puts "Desired rating is #{desired_rating}"
+
+    #geting team with lowest value
+
+    team_record = allTeamCombinations.min_by { |team, rating_diff| rating_diff }
+    puts
+    puts
+    puts "Team choosen!"
+    team_record[0].each_with_index do |name, index|
+        puts "Team member no. #{index}: #{name}"
+    end
+    puts "Diff between teams #{team_record[1]}"
+
+
+    return team_record
+
+end
+
+def getAllTeamCombinations(desired_rating)
+    data = @nicks
+    output = Hash.new
+    k=5
+    for i1 in 0..data.size()-k
+        for i2 in i1+1..data.size()-k+1
+            for i3 in i2+1..data.size()-k+2
+                for i4 in i3+1..data.size()-k+3
+                    for i5 in i4+1..data.size()-k+4
+                        team = [data[i1],data[i2],data[i3],data[i4],data[i5]]
+                        output[team] = (sumTeamMMR(team)-desired_rating).abs()
+
+                    end
+                end
+            end
+        end
+    end
+    output
+end
+
+def getDesiredRating()
+    sum=0
+    @ratings.each do |name,value|
+        sum+=value unless value.nil?
+    end
+    sum/2
 end

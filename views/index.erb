@@ -1,28 +1,52 @@
 <html>
     <head>
         <title>LoL Team Creator</title>
+        <link href="<%= url('/style.css') %>" rel="stylesheet" type="text/css" />
     </head>
 
 
     <body>
         <h1>LoL Team Creator</h1>
+        <div id="flex">
+            <div>
+                <!--Getting nicks-->
+                <h2>Enter Players names</h2>
+                <form method="post" action="index">
+                    <% for i in 1..10 do %>
+                        <label><%= "Summoner no. #{i}"%><label>
+                        <input type="text" value="<%=@nicks.nil? || @nicks[i-1].nil? ? "" : (h @nicks[i-1])%>" name="<%= "summoner_#{i-1}"%>" placeholder="<%= "Enter summoners name here"%>"/>
+                        <br>
+                    <%end%>
+                    
+                    <input type="submit" value="generate"/>
 
-        <form method="post" action="index">
-            <% for i in 1..10 do %>
-                <label><%= "Summoner no. #{i}"%><label>
-                <input type="text" name="<%= "summoner_#{i-1}"%>" placeholder="<%= "Enter summoners name here"%>"/>
-                <br>
-            <%end%>
-            
-            <input type="submit" value="generate"/>
+                </form><br>
+            </div>
+            <div>
+                <!--Presenting details-->
+                <%unless @ratings.nil?%>
+                    <h2>Players MMRs</h2>
+                    <%@ratings.each do |k,v|%>
+                        <label><%=k%></label><br>
+                        <%=v.nil? ? "Unknown rating" : v%><br><br>
+                    <%end%>
+                <%end%>
+            </div>
+            <div>
+                <!--Presenting optimal team-->
+                <%unless @team.nil?%>
+                    <h2>Optimal Teams</h2>
+                    <h3>Team diff: <%= @team[1]%></h3>
+                    <h4>First Team</h4>
+                    <%@team[0].each_with_index do |name, index|%>
+                        <label><%="Team member no. #{index+1}:"%></label><br>
+                        <%=name.nil? ? "name is nil" : "#{name}"%><br><br>
+                    <%end%>
+                    <h4>Second Team</h4>
 
-        </form><br>
-
-        <!--Pressenting details-->
-        <%@ratings.each do |k,v|%>
-            <label><%=k%></label><br>
-            <%=v.nil? ? "Unknown rating" : v%><br><br>
-        <%end%>
+                <%end%>
+            </div>
+        </div>
 
 
     </body>

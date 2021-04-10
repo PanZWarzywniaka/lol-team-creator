@@ -5,7 +5,7 @@ require "sinatra/reloader"
 require 'httparty'
 
 
-#include ERB::Util
+include ERB::Util
 
 require_all "controllers"
 require_all "views"
