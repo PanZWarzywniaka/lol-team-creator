@@ -1,7 +1,9 @@
 #Gems
 require "sinatra"
 require "require_all"
-require "sinatra/reloader" # Must be removed during demonstration and final project
+require "sinatra/reloader"
+require 'httparty'
+
 
 #include ERB::Util
 

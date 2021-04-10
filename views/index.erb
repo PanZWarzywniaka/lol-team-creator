@@ -16,7 +16,15 @@
             
             <input type="submit" value="generate"/>
 
-        </form>
+        </form><br>
+
+        <!--Pressenting details-->
+        <%@ratings.each do |k,v|%>
+            <label><%=k%></label><br>
+            <%=v.nil? ? "Unknown rating" : v%><br><br>
+        <%end%>
+
+
     </body>
 
 
