@@ -135,7 +135,7 @@ def iterativeApproach()
 
     #creating team_records
     for i in 0...@num_of_teams
-        team_records << allTeamCombinations[i]
+        team_records << allTeamCombinations[2*i]
     end
     #team_record = allTeamCombinations.min_by { |team, rating_diff| rating_diff }
     puts "#{@num_of_teams} teams were calculated"
