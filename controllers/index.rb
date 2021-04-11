@@ -10,17 +10,13 @@ end
 
 post "/index" do
 
-    #@nicks = ["Qertes","Muffinek137","Queen456","MagnatZOwocniaka","nickzdupy"]
+    @num_of_teams = params.fetch("num_of_teams",1).strip.to_i
+    puts "Number of teams to be generated #{@num_of_teams}"
     @nicks = fetchSummoners(params)
     puts @nicks
     @ratings = getAllMMRs()
-
-    #@teams [nick1,nick2,nick2,nick3] => team mmr
-    @team1 = ["Qertes","Muffinek137","Queen456","MagnatZOwocniaka","balti24"]
-    puts "team1 mmr #{sumTeamMMR(@team1)}"
     puts @ratings
-
-    @team = getOptimizedTeam()
+    @teams = getOptimizedTeams()
 
     erb :index
 end
@@ -103,7 +99,7 @@ def averageTeamMMR(teamArray)
     return sum/teamArray.size()
 end
 
-def getOptimizedTeam()
+def getOptimizedTeams()
     iterativeApproach()
     #pickBestApproach()
 end
@@ -112,7 +108,9 @@ def iterativeApproach()
 
     desired_rating = getDesiredRating()
     allTeamCombinations = getAllTeamCombinations(desired_rating)
-    
+
+    #sroting team records
+    allTeamCombinations = allTeamCombinations.sort_by { |team, rating_diff| rating_diff }
     allTeamCombinations.each do |team, rating_diff|
         puts
         puts team
@@ -121,19 +119,44 @@ def iterativeApproach()
 
     puts "Desired rating is #{desired_rating}"
 
-    #geting team with lowest value
+    #puts "End of sorted"
+    #puts "Testing sorted:"
+    #puts "Getting first of the sorted list:"
+    #puts "First of the sorted list:"
+    #puts "#{allTeamCombinations[0]}"
+    #puts "Second of the sorted list:"
+    #puts "#{allTeamCombinations[1]}"
+    #puts "Third of the sorted list:"
+    #puts "#{allTeamCombinations[2]}"
+    #puts "Second of the sorted list:"
+    #puts "#{allTeamCombinations[3]}"
 
-    team_record = allTeamCombinations.min_by { |team, rating_diff| rating_diff }
-    puts
-    puts
-    puts "Team choosen!"
-    team_record[0].each_with_index do |name, index|
-        puts "Team member no. #{index}: #{name}"
+    team_records = []
+
+    #creating team_records
+    for i in 0...@num_of_teams
+        team_records << allTeamCombinations[i]
     end
-    puts "Diff between teams #{team_record[1]}"
+    #team_record = allTeamCombinations.min_by { |team, rating_diff| rating_diff }
+    puts "#{@num_of_teams} teams were calculated"
+    puts
+    puts
+    puts "Teams were choosen!"
+    puts
+    team_records.each_with_index do |team, num|
+        puts "Team number: #{num+1}."
+        puts
+        team[0].each_with_index do |name, index|
+            puts "Team member no. #{index+1}: #{name}"
+        end
+        puts
+        puts "Diff between teams #{team[1]}"
+        puts
+    end
+    
 
 
-    return team_record
+    return team_records
 
 end
 

@@ -7,22 +7,33 @@
 
     <body>
         <h1>LoL Team Creator</h1>
-        <div id="flex">
-            <div>
+        <div id="container">
+            <div id="col1">
                 <!--Getting nicks-->
                 <h2>Enter Players names</h2>
                 <form method="post" action="index">
-                    <% for i in 1..10 do %>
-                        <label><%= "Summoner no. #{i}"%><label>
-                        <input type="text" value="<%=@nicks.nil? || @nicks[i-1].nil? ? "" : (h @nicks[i-1])%>" name="<%= "summoner_#{i-1}"%>" placeholder="<%= "Enter summoners name here"%>"/>
-                        <br>
-                    <%end%>
-                    
-                    <input type="submit" value="generate"/>
+                    <div id="form">
+                        <% for i in 1..10 do %>
+                            <div id="<%="label_#{i}"%>">
+                                <label><%= "#{i}: "%><label>
+                            </div>
+                            <div id="<%="input_#{i}"%>">
+                                <input type="text" value="<%=@nicks.nil? || @nicks[i-1].nil? ? "" : (h @nicks[i-1])%>" name="<%= "summoner_#{i-1}"%>" placeholder="<%= "Enter summoners name here"%>"/>
+                            </div>
+                        <%end%>
+                    </div>
+                    <br>
+                    <label>How many optimal teams do you want? </label>
+                    <select name="num_of_teams">
+                        <% for i in 1..10 do %>
+                            <option value="<%=i%>"><%=i%></option>
+                        <% end %>
+                    </select><br>
+                    <input type="submit" value="Generate Optimal Teams"/>
 
-                </form><br>
+                </form>
             </div>
-            <div>
+            <div id="col2">
                 <!--Presenting details-->
                 <%unless @ratings.nil?%>
                     <h2>Players MMRs</h2>
@@ -32,18 +43,34 @@
                     <%end%>
                 <%end%>
             </div>
-            <div>
-                <!--Presenting optimal team-->
-                <%unless @team.nil?%>
-                    <h2>Optimal Teams</h2>
-                    <h3>Team diff: <%= @team[1]%></h3>
-                    <h4>First Team</h4>
-                    <%@team[0].each_with_index do |name, index|%>
-                        <label><%="Team member no. #{index+1}:"%></label><br>
-                        <%=name.nil? ? "name is nil" : "#{name}"%><br><br>
+            <div id="col3">
+                <!--Presenting optimal teams-->
+                <%unless @teams.nil?%>
+                    <h2>Optimal Teams:</h2>
+                    <%@teams.each_with_index do |team, num|%> <!--Iterating over teams-->
+                        <h3>Team number <%= num+1%>:</h3>
+                        <h3>Team diff: <%= team[1]%></h3>
+                        <div class="teams">
+                            <div class="team1"> <!--Team 1-->
+                                <h4>First Team:</h4>
+                                <%team[0].each_with_index do |name, index|%>
+                                    <label><%="#{index+1}:"%></label>
+                                    <%=name.nil? ? "name is nil" : "#{name}"%><br><br>
+                                <%end%>
+                            </div>
+                            <div class="team2"> <!--Team 2-->
+                                <h4>Second Team:</h4>
+                                <%index=0%>
+                                <%@nicks.each do |name|%> <!--10 razy-->
+                                    <%unless team[0].include?(name)%>
+                                        <label><%="#{index+1}:"%></label>
+                                        <%=name.nil? ? "name is nil" : "#{name}"%><br><br>
+                                        <%index+=1%>
+                                    <%end%>                        
+                                <%end%>
+                            </div>
+                        </div>
                     <%end%>
-                    <h4>Second Team</h4>
-
                 <%end%>
             </div>
         </div>
