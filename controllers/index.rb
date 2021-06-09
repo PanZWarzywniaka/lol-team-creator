@@ -112,25 +112,8 @@ def iterativeApproach()
 
     #sroting team records
     allTeamCombinations = allTeamCombinations.sort_by { |team, rating_diff| rating_diff }
-    allTeamCombinations.each do |team, rating_diff|
-        puts
-        puts team
-        puts "How close to the desired rating: #{rating_diff}"
-    end
 
     puts "Desired rating is #{desired_rating}"
-
-    #puts "End of sorted"
-    #puts "Testing sorted:"
-    #puts "Getting first of the sorted list:"
-    #puts "First of the sorted list:"
-    #puts "#{allTeamCombinations[0]}"
-    #puts "Second of the sorted list:"
-    #puts "#{allTeamCombinations[1]}"
-    #puts "Third of the sorted list:"
-    #puts "#{allTeamCombinations[2]}"
-    #puts "Second of the sorted list:"
-    #puts "#{allTeamCombinations[3]}"
 
     team_records = []
 
@@ -138,7 +121,7 @@ def iterativeApproach()
     for i in 0...@num_of_teams
         team_records << allTeamCombinations[2*i]
     end
-    #team_record = allTeamCombinations.min_by { |team, rating_diff| rating_diff }
+
     puts "#{@num_of_teams} teams were calculated"
     puts
     puts
