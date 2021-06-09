@@ -2,7 +2,8 @@
 require "sinatra"
 require "require_all"
 require "sinatra/reloader"
-require 'httparty'
+require "uri"
+require "net/http"
 
 
 include ERB::Util

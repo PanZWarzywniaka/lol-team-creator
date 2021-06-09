@@ -37,11 +37,14 @@ end
 
 def getSummonersMMR(name,server)
 
-    response = HTTParty.get("https://#{server}.whatismymmr.com/api/v1/summoner?name=#{name}")
+    url = "https://#{server}.whatismymmr.com/api/v1/summoner?name=#{name}"
+    uri = URI.parse(URI.escape(url))
+
+    response = Net::HTTP.get_response(uri)
     puts
     puts "Checking MMR of #{name}... on #{server}"
 
-    if response.code == 200
+    if response.code.to_i == 200
         parsed = JSON.parse(response.body)
         if !parsed["ranked"]["avg"].nil?
             rating = parsed["ranked"]["avg"]
