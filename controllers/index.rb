@@ -11,10 +11,11 @@ end
 post "/index" do
 
     @num_of_teams = params.fetch("num_of_teams",1).strip.to_i
+    server = params.fetch("server","eune").strip
     puts "Number of teams to be generated #{@num_of_teams}"
     @nicks = fetchSummoners(params)
     puts @nicks
-    @ratings = getAllMMRs()
+    @ratings = getAllMMRs(server)
     puts @ratings
     @teams = getOptimizedTeams()
 
@@ -34,11 +35,11 @@ def fetchSummoners(params)
     ret
 end
 
-def getSummonersMMR(name)
+def getSummonersMMR(name,server)
 
-    response = HTTParty.get("https://eune.whatismymmr.com/api/v1/summoner?name=#{name}")
+    response = HTTParty.get("https://#{server}.whatismymmr.com/api/v1/summoner?name=#{name}")
     puts
-    puts "Checking MMR of #{name}..."
+    puts "Checking MMR of #{name}... on #{server}"
 
     if response.code == 200
         parsed = JSON.parse(response.body)
@@ -62,10 +63,10 @@ def getSummonersMMR(name)
     end
 end
 
-def getAllMMRs()
+def getAllMMRs(server)
     map = Hash.new
     @nicks.each do |name|
-        map[name] = getSummonersMMR(name)
+        map[name] = getSummonersMMR(name,server)
     end
     return map
 end
