@@ -119,7 +119,7 @@ def iterativeApproach()
 
     #creating team_records
     for i in 0...@num_of_teams
-        team_records << allTeamCombinations[2*i]
+        team_records << allTeamCombinations[i]
     end
 
     puts "#{@num_of_teams} teams were calculated"
@@ -169,5 +169,5 @@ def getDesiredRating()
     @ratings.each do |name,value|
         sum+=value unless value.nil?
     end
-    sum/2
+    sum/2.floor()
 end
