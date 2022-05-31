@@ -2,6 +2,7 @@
     <head>
         <title>LoL Team Creator</title>
         <link href="<%= url('/style.css') %>" rel="stylesheet" type="text/css" />
+        <script defer src="<%= url('/scripts.js') %>"></script>
     </head>
 
 
@@ -26,7 +27,7 @@
                     <label>How many optimal teams do you want? </label>
                     <select name="num_of_teams">
                         <% for i in 1..10 do %>
-                            <option value="<%=i%>" <%="selected" if i==10%>><%=i%></option>
+                            <option value="<%=i%>" <%="selected" if i==10%>> <%=i%> </option>
                         <% end %>
                     </select><br>
                     <label>Choose server: </label>
@@ -37,11 +38,13 @@
                         <option value="kr">Korea</option>
                     </select><br>
 
-                    <input type="submit" value="Generate Teams"/>
+                    <input id="generate_btn" type="submit" value="Generate Teams"/>
 
                 </form>
             </div>
             <div id="col2">
+                <%# canvas %>
+                <canvas id="canvas" hidden></canvas>
                 <!--Presenting details-->
                 <%unless @ratings.nil?%>
                     <h2>Players MMRs</h2>

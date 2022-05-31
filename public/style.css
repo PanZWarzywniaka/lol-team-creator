@@ -1,3 +1,9 @@
+body {
+    margin: 0px;
+    background-color: rgb(56,220, 250);
+    overflow: hidden;
+}
+
 #container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
