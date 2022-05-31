@@ -26,7 +26,7 @@
                     <label>How many optimal teams do you want? </label>
                     <select name="num_of_teams">
                         <% for i in 1..10 do %>
-                            <option value="<%=i%>"><%=i%></option>
+                            <option value="<%=i%>" <%="selected" if i==10%>><%=i%></option>
                         <% end %>
                     </select><br>
                     <label>Choose server: </label>
@@ -37,7 +37,7 @@
                         <option value="kr">Korea</option>
                     </select><br>
 
-                    <input type="submit" value="Generate Optimal Teams"/>
+                    <input type="submit" value="Generate Teams"/>
 
                 </form>
             </div>
