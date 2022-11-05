@@ -37,7 +37,7 @@ end
 def getSummonersMMR(name,server)
 
     url = "https://#{server}.whatismymmr.com/api/v1/summoner?name=#{name}"
-    uri = URI.parse(URI.escape(url))
+    uri = URI(url)
 
     response = Net::HTTP.get_response(uri)
     puts
