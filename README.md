@@ -1,5 +1,7 @@
 # LoL Team Creator
 
+Simple web app that helps with team generating for Leauge of Legends:tm: custom games.
+
 ## Table of contents
 
 - [General info](#general-info)
@@ -8,9 +10,7 @@
 
 ## General info
 
-Simple web app that helps generating teams for Leauge of Legends:tm: custom games.
-
-The App queries euw.whatismymmr.com to get player's match making ranking and then generates most balanced teams of 5.
+The App queries [WhatIsMyMMR](https://euw.whatismymmr.com) to get player's match making ranking and then generates teams of 5 with smallest possible skill disparity.
 
 ## Technologies
 
@@ -23,8 +23,10 @@ Project is created with:
 
 To run this project, clone the repo:
 
+```
 $ cd lol-team-creator/
 $ bundle install
 $ ruby app.rb -p 8888
+```
 
 Then open http://localhost:8888/
